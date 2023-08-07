@@ -1,0 +1,91 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: black;
+  background-color: #eeeeee;
+}
+
+/* for bigger screens */
+@media (min-width: 768px) {
+  .cards-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    background-color: #eeeeee;
+    padding: 20px;
+    margin: 10px;
+  }
+
+  /* section cards */
+  .section-card {
+    display: flex;
+    height: 800px;
+    flex-direction: column;
+    background-color: #ffffff;
+    box-shadow: 2px 2px 3px 0px #d6d6d6;
+    padding: 20px;
+    gap: 5px;
+    flex: 1 0 0;
+  }
+
+  .times {
+    width: 90px;
+    background-color: #eeeeee;
+    margin-top: 3px;
+    margin-right: 3px;
+    flex-direction: column;
+  }
+
+  /* Activity cards UI */
+  .activity-cards {
+    flex: 1;
+    flex-direction: column;
+  }
+}
+
+/* for smaller screens */
+@media (max-width: 767px) {
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+    align-self: stretch;
+    background-color: #eeeeee;
+    padding: 20px;
+  }
+
+  /* section cards */
+  .section-card {
+    flex: auto;
+    /* height: 641px; */
+    background-color: #ffffff;
+    box-shadow: 2px 2px 3px 0px #d6d6d6;
+    padding: 20px;
+  }
+
+  .times {
+    width: 90px;
+    background-color: #eeeeee;
+    margin-top: 5px;
+    margin-right: 5px;
+    flex-direction: column;
+  }
+
+  .Grid {
+    display: flex;
+    flex-direction: row;
+    /* height: 100%; */
+  }
+
+  .activity-cards {
+    flex: 1;
+    margin-top: 2px;
+    flex-direction: column;
+  }
+}
