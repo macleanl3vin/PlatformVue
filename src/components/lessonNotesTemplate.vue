@@ -120,7 +120,6 @@
   onMounted(drawLessonNotes)
 </script>
 
-
 <template>
    <div class="section-card" style="position: relative;">
       <div class="notes-header">
@@ -140,9 +139,9 @@
           </div>
         </div>
         <div class='message-container'>  
-          <h1 v-if="savingMessage == 'saving'" class="save-message">Saving...</h1>
-          <h1 v-if="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
-          <h1 v-if="savingMessage == 'error'" class="error-message"><img src= 'warning_amber1.svg'>Save Error</h1>
+          <h1 v-show="savingMessage == 'saving'" class="save-message">Saving...</h1>
+          <h1 v-show="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
+          <h1 v-show="savingMessage == 'error'" class="error-message"><img src= 'warning_amber1.svg'>Save Error</h1>
         </div>
       </div>
 

@@ -399,9 +399,9 @@ onMounted(setUpPlanPage)
           <span id="daynum"> 00</span>
         </div>
         
-        <h1 v-if="savingMessage == 'saving'" class="save-message" >Saving...</h1>
-        <h1 v-if="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
-        <h1 v-if="savingMessage == 'error'" class="error-message"><img src="./icons/warning_amber.svg">Save Error</h1>
+        <h1 v-show="savingMessage == 'saving'" class="save-message" >Saving...</h1>
+        <h1 v-show="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
+        <h1 v-show="savingMessage == 'error'" class="error-message"><img src="./icons/warning_amber.svg">Save Error</h1>
       </div>
       <!-- Card that holds times and calendar -->
       <div class="schedule-content">
