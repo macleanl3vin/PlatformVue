@@ -258,10 +258,9 @@
     function onUpButtonClick(activities, i, currentPositionInDay) {
       const calendarContent = document.querySelector('.calendar-content');
       const activityCards = document.querySelector('.activity-cards');
-
-      calendarContent.classList.remove('calendar-content--saving');
-      calendarContent.classList.remove('calendar-content--saved');
-      calendarContent.classList.add('calendar-content--saving');
+      savingMessage.value = '';
+      savingMessage.value = '';
+      savingMessage.value = 'saving';
       activityCards.classList.add('activity-cards--disabled');
     
       originalActivities = [...activities];
@@ -295,23 +294,22 @@
           })
             .then((response) => response.json())
             .then((pos) => {
-              fetchAndDrawActivities()
+              fetchAndDrawActivities();
               activityCards.classList.remove('activity-cards--disabled');
-              calendarContent.classList.remove('calendar-content--saving');
-              calendarContent.classList.add('calendar-content--saved');
+              savingMessage.value = '';
+              savingMessage.value = 'saved';
               setTimeout(() => {
-                calendarContent.classList.remove('calendar-content--saved');
+                savingMessage.value = '';
               }, 4000);
             });
         })
         .catch((err) => {
           drawActivities(originalActivities)
-          calendarContent.classList.remove('calendar-content--saving');
-          calendarContent.classList.remove('calendar-content--saved');
-          calendarContent.classList.add('calendar-content--error');
+          savingMessage.value = '';
+          savingMessage.value = 'error';
           activityCards.classList.remove('activity-cards--disabled');
           setTimeout(function() {
-            calendarContent.classList.remove('calendar-content--error');
+            savingMessage.value = '';
           }, 4000);
         })
     }

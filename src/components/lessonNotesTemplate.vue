@@ -3,60 +3,54 @@
   import {ref, onMounted} from 'vue';
   let savingMessage = ref('');
   
+  let currentMarkdownString = ref(null);
+  let inEditMode = ref(false);
+
+  
+  
   function drawLessonNotes() {
-    const textarea = document.getElementById('input');
     const editButton = document.querySelector('.edit-button');
     const buttonContainer = document.querySelector('.button-container');
     const saveButton = document.querySelector('.save-button');
     const cancelButton = document.querySelector('.cancel-button');
-    const notesHeader = document.querySelector('.message-container');
-  
-    // Disables deprecation warnings from the marked library
-    // marked.use({ mangle: false, headerIds: false })
     
     return fetch('https://apprenticeship-2022-summer-backend.fly.dev/lesson-note')
       .then((response) => response.json())
       .then((data) => {
         const originalMarkdownString = data.contentMarkdown;
         
-        document.querySelector('.notes-content').innerHTML = marked.parse(originalMarkdownString);
-        let currentMarkdownString = originalMarkdownString;
-  
+        currentMarkdownString.value = originalMarkdownString;
+          
         const notesContent = document.querySelector('.notes-content');
         
         // Gradient at bottom of lesson notes 
-        const notesFadeout = document.createElement('div');
-        notesFadeout.className = 'notes-fadeout';
-        notesContent.appendChild(notesFadeout);
+        // const notesFadeout = document.createElement('div');
+        // notesFadeout.className = 'notes-fadeout';
+        // notesContent.appendChild(notesFadeout);
         
         // Start of click handlers for buttons
         editButton.addEventListener('click', () => {
-          savingMessage.value = '';
+          inEditMode.value = true;
+          
           savingMessage.value = '';
           buttonContainer.classList.remove('button-container--disabled');
           buttonContainer.classList.add('button-container--edit');
           buttonContainer.classList.add('button-container--save');
           buttonContainer.classList.add('button-container--cancel');
           
-          const notesContent = document.querySelector('.notes-content');
-          
-          textarea.value = currentMarkdownString;
-  
-          notesContent.innerHTML = '';
-          textarea.style.display = 'block';
-          notesContent.appendChild(textarea);
+          // notesContent.innerHTML = '';
+          // textarea.style.display = 'block';
+          // notesContent.appendChild(textarea);
         });
       
-        saveButton.addEventListener('click', () => {   
+        saveButton.addEventListener('click', () => {
           savingMessage.value = 'saving';
           buttonContainer.classList.add('button-container--disabled');
-          
-          currentMarkdownString = textarea.value;
   
           fetch('https://apprenticeship-2022-summer-backend.fly.dev/lesson-note', {
             method: 'PATCH',
             body: JSON.stringify({
-              'contentMarkdown': currentMarkdownString,
+              'contentMarkdown': currentMarkdownString.value,
             }),
             headers: {
               'content-type': 'application/json'
@@ -69,16 +63,12 @@
               buttonContainer.classList.remove('button-container--edit');
               buttonContainer.classList.remove('button-container--save');
               buttonContainer.classList.remove('button-container--cancel');
-              
-              textarea.style.display = 'none';
-              const notesContent = document.querySelector('.notes-content');
-              notesContent.innerHTML = marked.parse(currentMarkdownString);
-              
+            
+              inEditMode.value = false;
               // Readding the gradient div after new page is made
-              const notesFadeout = document.createElement('div');
-              notesFadeout.className = 'notes-fadeout';
-              notesContent.appendChild(notesFadeout);
-              
+              // const notesFadeout = document.createElement('div');
+              // notesFadeout.className = 'notes-fadeout';
+              // notesContent.appendChild(notesFadeout);
               setTimeout(function() {
                 savingMessage.value = '';
               }, 4000);
@@ -88,35 +78,40 @@
               savingMessage.value = 'error';
               buttonContainer.classList.remove('button-container--disabled');
               
-              currentMarkdownString = originalMarkdownString;
+              currentMarkdownString.value = originalMarkdownString;
               
               setTimeout(function() {
                 savingMessage.value = '';
               }, 4000);
             });
         });
-      
+        
         cancelButton.addEventListener('click', () => { 
-  
           let shouldCancel = confirm("Are you sure you want to cancel? Your changes will not be saved.");
           
           if (shouldCancel) {
             buttonContainer.classList.remove('button-container--edit');
             buttonContainer.classList.remove('button-container--save');
             buttonContainer.classList.remove('button-container--cancel');
-              
-            textarea.style.display = 'none';
-            const notesContent = document.querySelector('.notes-content');
-            notesContent.innerHTML = marked.parse(currentMarkdownString);
-              
+            
+            currentMarkdownString.value = originalMarkdownString;
+            inEditMode.value = false;
+            
             // Readding the gradient div after new page is made
-            const notesFadeout = document.createElement('div');
-            notesFadeout.className = 'notes-fadeout';
-            notesContent.appendChild(notesFadeout);
+            // const notesFadeout = document.createElement('div');
+            // notesFadeout.className = 'notes-fadeout';
+            // notesContent.appendChild(notesFadeout);
           }
         });
     })
   };
+  
+  function markdownAsHtml() {
+    if (currentMarkdownString.value === null) {
+        return null;
+    }
+    return marked.parse(currentMarkdownString.value);
+  }  
   onMounted(drawLessonNotes)
 </script>
 
@@ -141,14 +136,14 @@
         <div class='message-container'>  
           <h1 v-show="savingMessage == 'saving'" class="save-message">Saving...</h1>
           <h1 v-show="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
-          <h1 v-show="savingMessage == 'error'" class="error-message"><img src= 'warning_amber1.svg'>Save Error</h1>
+          <h1 v-show="savingMessage == 'error'" class="error-message"><img src="warning_amber1.svg">Save Error</h1>
         </div>
       </div>
 
       <div class="notes-content" style="overflow-y: scroll;">
-        <textarea id="input" rows='50'>
-          
-        </textarea>
+        <div v-if="currentMarkdownString === null"></div>
+        <textarea v-else-if="inEditMode" id="input" rows='50' v-model="currentMarkdownString">{{currentMarkdownString}}</textarea>
+        <div v-else-if="!inEditMode" v-html="markdownAsHtml()"></div>
       </div> 
   </div>
 </template>  
