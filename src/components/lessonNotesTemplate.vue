@@ -1,109 +1,88 @@
 <script setup>
   import {marked} from 'marked';
   import {ref, onMounted} from 'vue';
-  let savingMessage = ref('');
   
+  let savingMessage = ref('');
   let currentMarkdownString = ref(null);
   let inEditMode = ref(false);
+  let originalMarkdownString = '';
+  let disabledState = ref(false);
 
-  
+  function buttonContainerClasses() {
+    const classes = ['button-container']
+    if (inEditMode.value) {
+      classes.push('button-container--edit', 'button-container--save', 'button-container--cancel');
+    }
+    if(disabledState.value){
+      classes.push('button-container--disabled');
+    }
+    return classes;
+  }
+
+  function editButton() {
+    inEditMode.value = true;
+    
+    savingMessage.value = '';
+  };    
+
+  function saveButton() {
+    savingMessage.value = 'saving';
+    disabledState.value = true;
+
+    fetch('https://apprenticeship-2022-summer-backend.fly.dev/lesson-note', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        'contentMarkdown': currentMarkdownString.value,
+      }),
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then((response) => response.json())
+      .then((_pos) => {
+        savingMessage.value = '';
+        savingMessage.value = 'saved';
+        disabledState.value = false;
+        inEditMode.value = false;
+   
+        setTimeout(function() {
+          savingMessage.value = '';
+        }, 4000);
+      })
+      .catch((_err) => {
+        savingMessage.value = '';
+        savingMessage.value = 'error';
+        
+        currentMarkdownString.value = originalMarkdownString;
+        
+        setTimeout(function() {
+          savingMessage.value = '';
+        }, 4000);
+      }); 
+  }
+
+  function cancelButton() { 
+    let shouldCancel = confirm("Are you sure you want to cancel? Your changes will not be saved.");
+    
+    if (shouldCancel) {
+      currentMarkdownString.value = originalMarkdownString;
+      inEditMode.value = false;
+      
+      // Readding the gradient div after new page is made
+      // const notesFadeout = document.createElement('div');
+      // notesFadeout.className = 'notes-fadeout';
+      // notesContent.appendChild(notesFadeout);
+    }
+  };
   
   function drawLessonNotes() {
-    const editButton = document.querySelector('.edit-button');
-    const buttonContainer = document.querySelector('.button-container');
-    const saveButton = document.querySelector('.save-button');
-    const cancelButton = document.querySelector('.cancel-button');
-    
     return fetch('https://apprenticeship-2022-summer-backend.fly.dev/lesson-note')
       .then((response) => response.json())
       .then((data) => {
-        const originalMarkdownString = data.contentMarkdown;
+        originalMarkdownString = data.contentMarkdown;
         
         currentMarkdownString.value = originalMarkdownString;
-          
-        const notesContent = document.querySelector('.notes-content');
-        
-        // Gradient at bottom of lesson notes 
-        // const notesFadeout = document.createElement('div');
-        // notesFadeout.className = 'notes-fadeout';
-        // notesContent.appendChild(notesFadeout);
-        
-        // Start of click handlers for buttons
-        editButton.addEventListener('click', () => {
-          inEditMode.value = true;
-          
-          savingMessage.value = '';
-          buttonContainer.classList.remove('button-container--disabled');
-          buttonContainer.classList.add('button-container--edit');
-          buttonContainer.classList.add('button-container--save');
-          buttonContainer.classList.add('button-container--cancel');
-          
-          // notesContent.innerHTML = '';
-          // textarea.style.display = 'block';
-          // notesContent.appendChild(textarea);
-        });
-      
-        saveButton.addEventListener('click', () => {
-          savingMessage.value = 'saving';
-          buttonContainer.classList.add('button-container--disabled');
-  
-          fetch('https://apprenticeship-2022-summer-backend.fly.dev/lesson-note', {
-            method: 'PATCH',
-            body: JSON.stringify({
-              'contentMarkdown': currentMarkdownString.value,
-            }),
-            headers: {
-              'content-type': 'application/json'
-            }
-          })
-          .then((response) => response.json())
-            .then((_pos) => {
-              savingMessage.value = '';
-              savingMessage.value = 'saved';
-              buttonContainer.classList.remove('button-container--edit');
-              buttonContainer.classList.remove('button-container--save');
-              buttonContainer.classList.remove('button-container--cancel');
-            
-              inEditMode.value = false;
-              // Readding the gradient div after new page is made
-              // const notesFadeout = document.createElement('div');
-              // notesFadeout.className = 'notes-fadeout';
-              // notesContent.appendChild(notesFadeout);
-              setTimeout(function() {
-                savingMessage.value = '';
-              }, 4000);
-            })
-            .catch((_err) => {
-              savingMessage.value = '';
-              savingMessage.value = 'error';
-              buttonContainer.classList.remove('button-container--disabled');
-              
-              currentMarkdownString.value = originalMarkdownString;
-              
-              setTimeout(function() {
-                savingMessage.value = '';
-              }, 4000);
-            });
-        });
-        
-        cancelButton.addEventListener('click', () => { 
-          let shouldCancel = confirm("Are you sure you want to cancel? Your changes will not be saved.");
-          
-          if (shouldCancel) {
-            buttonContainer.classList.remove('button-container--edit');
-            buttonContainer.classList.remove('button-container--save');
-            buttonContainer.classList.remove('button-container--cancel');
-            
-            currentMarkdownString.value = originalMarkdownString;
-            inEditMode.value = false;
-            
-            // Readding the gradient div after new page is made
-            // const notesFadeout = document.createElement('div');
-            // notesFadeout.className = 'notes-fadeout';
-            // notesContent.appendChild(notesFadeout);
-          }
-        });
-    })
+      })
   };
   
   function markdownAsHtml() {
@@ -112,24 +91,24 @@
     }
     return marked.parse(currentMarkdownString.value);
   }  
-  onMounted(drawLessonNotes)
+  onMounted(drawLessonNotes);
 </script>
 
 <template>
    <div class="section-card" style="position: relative;">
       <div class="notes-header">
         <h1>Lesson Notes</h1>
-        <div class="button-container">
-          <div class="edit-button">
+        <div :class="buttonContainerClasses()">
+          <div @click="editButton()" class="edit-button">
             <img src="./icons/arrow_up.svg" class="edit"/>
             <img src="./icons/arrow_up1.svg" class="edit-hover"/>
           </div>
           
-          <div class="save-button">
+          <div @click="saveButton()" class="save-button">
             <h1 class="save-text">SAVE</h1>
           </div>
 
-          <div class="cancel-button">
+          <div @click="cancelButton()" class="cancel-button">
             <h1 class="cancel-text">CANCEL</h1>
           </div>
         </div>
@@ -144,6 +123,7 @@
         <div v-if="currentMarkdownString === null"></div>
         <textarea v-else-if="inEditMode" id="input" rows='50' v-model="currentMarkdownString">{{currentMarkdownString}}</textarea>
         <div v-else-if="!inEditMode" v-html="markdownAsHtml()"></div>
+        <div v-if="!inEditMode" class="notes-fadeout"></div>
       </div> 
   </div>
 </template>  

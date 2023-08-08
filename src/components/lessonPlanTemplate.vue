@@ -23,7 +23,7 @@
           activities.sort(function(a, b) {
             return a.positionInDay - b.positionInDay;
           });
-    
+          
           drawActivities(activities);
         })
     }
