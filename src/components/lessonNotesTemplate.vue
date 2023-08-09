@@ -67,15 +67,14 @@
     if (shouldCancel) {
       currentMarkdownString.value = originalMarkdownString;
       inEditMode.value = false;
-      
-      // Readding the gradient div after new page is made
-      // const notesFadeout = document.createElement('div');
-      // notesFadeout.className = 'notes-fadeout';
-      // notesContent.appendChild(notesFadeout);
     }
   };
   
   function drawLessonNotes() {
+    // Disable deprecation warnings introduced in marked v5
+    // https://github.com/markedjs/marked/releases/tag/v5.0.0
+    marked.use({mangle: false, headerIds: false});
+    
     return fetch('https://apprenticeship-2022-summer-backend.fly.dev/lesson-note')
       .then((response) => response.json())
       .then((data) => {
@@ -95,36 +94,36 @@
 </script>
 
 <template>
-   <div class="section-card" style="position: relative;">
-      <div class="notes-header">
-        <h1>Lesson Notes</h1>
-        <div :class="buttonContainerClasses()">
-          <div @click="editButton()" class="edit-button">
-            <img src="./icons/arrow_up.svg" class="edit"/>
-            <img src="./icons/arrow_up1.svg" class="edit-hover"/>
-          </div>
-          
-          <div @click="saveButton()" class="save-button">
-            <h1 class="save-text">SAVE</h1>
-          </div>
-
-          <div @click="cancelButton()" class="cancel-button">
-            <h1 class="cancel-text">CANCEL</h1>
-          </div>
+  <div class="section-card" style="position: relative;">
+    <div class="notes-header">
+      <h1>Lesson Notes</h1>
+      <div :class="buttonContainerClasses()">
+        <div @click="editButton()" class="edit-button">
+          <img src="./icons/arrow_up.svg" class="edit"/>
+          <img src="./icons/arrow_up1.svg" class="edit-hover"/>
         </div>
-        <div class='message-container'>  
-          <h1 v-show="savingMessage == 'saving'" class="save-message">Saving...</h1>
-          <h1 v-show="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
-          <h1 v-show="savingMessage == 'error'" class="error-message"><img src="warning_amber1.svg">Save Error</h1>
+        
+        <div @click="saveButton()" class="save-button">
+          <h1 class="save-text">SAVE</h1>
+        </div>
+
+        <div @click="cancelButton()" class="cancel-button">
+          <h1 class="cancel-text">CANCEL</h1>
         </div>
       </div>
+      <div class='message-container'>  
+        <h1 v-show="savingMessage == 'saving'" class="save-message">Saving...</h1>
+        <h1 v-show="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
+        <h1 v-show="savingMessage == 'error'" class="error-message"><img src="warning_amber1.svg">Save Error</h1>
+      </div>
+    </div>
 
-      <div class="notes-content" style="overflow-y: scroll;">
-        <div v-if="currentMarkdownString === null"></div>
-        <textarea v-else-if="inEditMode" id="input" rows='50' v-model="currentMarkdownString">{{currentMarkdownString}}</textarea>
-        <div v-else-if="!inEditMode" v-html="markdownAsHtml()"></div>
-        <div v-if="!inEditMode" class="notes-fadeout"></div>
-      </div> 
+    <div class="notes-content" style="overflow-y: scroll;">
+      <div v-if="currentMarkdownString === null"></div>
+      <textarea v-else-if="inEditMode" id="input" rows='50' v-model="currentMarkdownString">{{currentMarkdownString}}</textarea>
+      <div v-else-if="!inEditMode" v-html="markdownAsHtml()"></div>
+      <div v-if="!inEditMode" class="notes-fadeout"></div>
+    </div> 
   </div>
 </template>  
 
