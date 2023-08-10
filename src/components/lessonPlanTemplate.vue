@@ -1,36 +1,34 @@
 <script setup>
+  import activityCardList from "./activityCardListTemplate.vue";
   import {ref, onMounted} from 'vue';
   let savingMessage = ref('');
-  
   
   function setUpPlanPage() {
     // Global variables
     const downButtons = document.getElementsByClassName('buttonDownBox');
     const upButtons = document.getElementsByClassName('buttonUpBox');
-    const activityCardsContainer = document.querySelector('.activity-cards');
     let originalActivities = [];
     let activities = [];
     
-    function fetchAndDrawActivities() {
-      // Performing an HTTP GET request to given URL using fetch function, 
-      return fetch('https://apprenticeship-2022-summer-backend.fly.dev/activities/')
-        // Receives reponse as parameter then converts to JSON format
-        .then((response) => response.json())
-        .then((data) => {
-          activities = data;
+    // function fetchAndDrawActivities() {
+    //   // Performing an HTTP GET request to given URL using fetch function, 
+    //   return fetch('https://apprenticeship-2022-summer-backend.fly.dev/activities/')
+    //     // Receives reponse as parameter then converts to JSON format
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       activities = data;
     
-          // Sorting activities by position in day 
-          activities.sort(function(a, b) {
-            return a.positionInDay - b.positionInDay;
-          });
+    //       // Sorting activities by position in day 
+    //       activities.sort(function(a, b) {
+    //         return a.positionInDay - b.positionInDay;
+    //       });
           
-          drawActivities(activities);
-        })
-    }
+    //     })
+    // }
     
     function drawActivities(activities) {
       const activityCardHtml = `
-        <div class="activity-card" id="" style="position: relative;">
+        <div class="activity-card" :style="activityCardStyle()">
           <div class="buttonDownBox">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="button-down">
               <path d="M9.33325 12.6667L15.9999 19.3334L22.6666 12.6667H9.33325Z" fill-opacity="0.8"/>
@@ -65,25 +63,16 @@
         activityCardElement.innerHTML = activityCardHtml;
         activityCardsContainer.appendChild(activityCardElement.firstElementChild);
       }
-    
-      const heightTen = (10 / 5) * 38;
-      const heightFifteen = (15 / 5) * 38;
-      const heightTwenty = (20 / 5) * 38;
-    
+
       for (let i = 0; i < activities.length; i++) {
+        // Assigning/calculating activity card heights based off durationMinutes
+        let height = (activities[i].durationMinutes / 5) * 38;
+        cards[i].style.height = height + 'px';
+    
         // Taking activity types and formating them accordingly
         activities[i].type = activities[i].type.replace(/_/g, ' ');
         activities[i].type = activities[i].type.replace(/\b\w/g, letter => letter.toUpperCase());
-    
-        // Assigning activity card heights based off durationMinutes
-        if (activities[i].durationMinutes === 10) {
-          cards[i].style.height = heightTen + 'px';
-        } else if (activities[i].durationMinutes === 15) {
-          cards[i].style.height = heightFifteen + 'px';
-        } else if (activities[i].durationMinutes === 20) {
-          cards[i].style.height = heightTwenty + 'px';
-        }
-    
+
         // Giving the cards their title, activity-type, duration
         cards[i].querySelector('.title').textContent = activities[i].title;
         cards[i].querySelector('.activity-type').textContent = activities[i].type;
@@ -196,123 +185,123 @@
       }
     }
     
-    function onDownButtonClick(activities, i, currentPositionInDay) {
-      const calendarContent = document.querySelector('.calendar-content');
-      const activityCards = document.querySelector('.activity-cards');
-      savingMessage.value = '';
-      savingMessage.value = '';
-      savingMessage.value = 'saving';
-      activityCards.classList.add('activity-cards--disabled');
+    // function onDownButtonClick(activities, i, currentPositionInDay) {
+    //   const calendarContent = document.querySelector('.calendar-content');
+    //   const activityCards = document.querySelector('.activity-cards');
+    //   savingMessage.value = '';
+    //   savingMessage.value = '';
+    //   savingMessage.value = 'saving';
+    //   activityCards.classList.add('activity-cards--disabled');
       
-      originalActivities = [...activities];
+    //   originalActivities = [...activities];
       
-      // Drawing new activity list
-      const newActivities = [...activities];
-      let temp = newActivities[i];
-      newActivities[i] = newActivities[i + 1];
-      newActivities[i + 1] = temp;
-      drawActivities(newActivities)
+    //   // Drawing new activity list
+    //   const newActivities = [...activities];
+    //   let temp = newActivities[i];
+    //   newActivities[i] = newActivities[i + 1];
+    //   newActivities[i + 1] = temp;
+    //   // drawActivities(newActivities)
     
-      fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i].id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({
-          'positionInDay': activities[i + 1].positionInDay,
-        }),
-        headers: {
-          'content-type': 'application/json'
-        }
-      })
-        .then((response) => response.json())
-        .then((pos) => {
-          return fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i + 1].id}`, {
-            method: 'PATCH',
-            body: JSON.stringify({
-              'positionInDay': currentPositionInDay,
-            }),
-            headers: {
-              'content-type': 'application/json'
-            }
-          })
-            .then((response) => response.json())
-            .then((pos) => {
-              fetchAndDrawActivities();
-              activityCards.classList.remove('activity-cards--disabled');
-              savingMessage.value = '';
-              savingMessage.value = 'saved';
-              setTimeout(() => {
-                savingMessage.value = '';
-              }, 4000);
-            });
-        })
-        .catch((err) => {
-          drawActivities(originalActivities);
-          savingMessage.value = '';
-          savingMessage.value = 'error';
-          activityCards.classList.remove('activity-cards--disabled');
-          setTimeout(function() {
-            savingMessage.value = '';
-          }, 4000);
-        })
-    }
+    //   fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i].id}`, {
+    //     method: 'PATCH',
+    //     body: JSON.stringify({
+    //       'positionInDay': activities[i + 1].positionInDay,
+    //     }),
+    //     headers: {
+    //       'content-type': 'application/json'
+    //     }
+    //   })
+    //     .then((response) => response.json())
+    //     .then((pos) => {
+    //       return fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i + 1].id}`, {
+    //         method: 'PATCH',
+    //         body: JSON.stringify({
+    //           'positionInDay': currentPositionInDay,
+    //         }),
+    //         headers: {
+    //           'content-type': 'application/json'
+    //         }
+    //       })
+    //         .then((response) => response.json())
+    //         .then((pos) => {
+    //           fetchAndDrawActivities();
+    //           activityCards.classList.remove('activity-cards--disabled');
+    //           savingMessage.value = '';
+    //           savingMessage.value = 'saved';
+    //           setTimeout(() => {
+    //             savingMessage.value = '';
+    //           }, 4000);
+    //         });
+    //     })
+    //     .catch((err) => {
+    //       // drawActivities(originalActivities);
+    //       savingMessage.value = '';
+    //       savingMessage.value = 'error';
+    //       activityCards.classList.remove('activity-cards--disabled');
+    //       setTimeout(function() {
+    //         savingMessage.value = '';
+    //       }, 4000);
+    //     })
+    // }
     
-    function onUpButtonClick(activities, i, currentPositionInDay) {
-      const calendarContent = document.querySelector('.calendar-content');
-      const activityCards = document.querySelector('.activity-cards');
-      savingMessage.value = '';
-      savingMessage.value = '';
-      savingMessage.value = 'saving';
-      activityCards.classList.add('activity-cards--disabled');
+    // function onUpButtonClick(activities, i, currentPositionInDay) {
+    //   const calendarContent = document.querySelector('.calendar-content');
+    //   const activityCards = document.querySelector('.activity-cards');
+    //   savingMessage.value = '';
+    //   savingMessage.value = '';
+    //   savingMessage.value = 'saving';
+    //   activityCards.classList.add('activity-cards--disabled');
     
-      originalActivities = [...activities];
+    //   originalActivities = [...activities];
       
-      // Drawing new activity list
-      const newActivities = [...activities];
-      let temp = newActivities[i];
-      newActivities[i] = newActivities[i - 1];
-      newActivities[i - 1] = temp;
-      drawActivities(newActivities)
+    //   // Drawing new activity list
+    //   const newActivities = [...activities];
+    //   let temp = newActivities[i];
+    //   newActivities[i] = newActivities[i - 1];
+    //   newActivities[i - 1] = temp;
+    //   // drawActivities(newActivities)
     
-      fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i].id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({
-          'positionInDay': activities[i - 1].positionInDay,
-        }),
-        headers: {
-          'content-type': 'application/json'
-        }
-      })
-        .then((response) => response.json())
-        .then((pos) => {
-          return fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i - 1].id}`, {
-            method: 'PATCH',
-            body: JSON.stringify({
-              'positionInDay': currentPositionInDay,
-            }),
-            headers: {
-              'content-type': 'application/json'
-            }
-          })
-            .then((response) => response.json())
-            .then((pos) => {
-              fetchAndDrawActivities();
-              activityCards.classList.remove('activity-cards--disabled');
-              savingMessage.value = '';
-              savingMessage.value = 'saved';
-              setTimeout(() => {
-                savingMessage.value = '';
-              }, 4000);
-            });
-        })
-        .catch((err) => {
-          drawActivities(originalActivities)
-          savingMessage.value = '';
-          savingMessage.value = 'error';
-          activityCards.classList.remove('activity-cards--disabled');
-          setTimeout(function() {
-            savingMessage.value = '';
-          }, 4000);
-        })
-    }
+    //   fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i].id}`, {
+    //     method: 'PATCH',
+    //     body: JSON.stringify({
+    //       'positionInDay': activities[i - 1].positionInDay,
+    //     }),
+    //     headers: {
+    //       'content-type': 'application/json'
+    //     }
+    //   })
+    //     .then((response) => response.json())
+    //     .then((pos) => {
+    //       return fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i - 1].id}`, {
+    //         method: 'PATCH',
+    //         body: JSON.stringify({
+    //           'positionInDay': currentPositionInDay,
+    //         }),
+    //         headers: {
+    //           'content-type': 'application/json'
+    //         }
+    //       })
+    //         .then((response) => response.json())
+    //         .then((pos) => {
+    //           fetchAndDrawActivities();
+    //           activityCards.classList.remove('activity-cards--disabled');
+    //           savingMessage.value = '';
+    //           savingMessage.value = 'saved';
+    //           setTimeout(() => {
+    //             savingMessage.value = '';
+    //           }, 4000);
+    //         });
+    //     })
+    //     .catch((err) => {
+    //       // drawActivities(originalActivities)
+    //       savingMessage.value = '';
+    //       savingMessage.value = 'error';
+    //       activityCards.classList.remove('activity-cards--disabled');
+    //       setTimeout(function() {
+    //         savingMessage.value = '';
+    //       }, 4000);
+    //     })
+    // }
     
     function drawCurrentDate() {
       function updateDate() {
@@ -377,7 +366,7 @@
       setInterval(updateDate, 1000);
     }
 
-    fetchAndDrawActivities();
+    // fetchAndDrawActivities();
     drawCurrentDate();
   }
 onMounted(setUpPlanPage)
@@ -459,7 +448,7 @@ onMounted(setUpPlanPage)
         </div>
         <!-- Div responsible for holding the activity cards -->
         <div class="activity-cards">
-          
+          <activityCardList/>
         </div>
       </div>
     </div>
@@ -500,6 +489,7 @@ onMounted(setUpPlanPage)
   box-sizing: border-box;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 }
 
 /* Down-button styling */
