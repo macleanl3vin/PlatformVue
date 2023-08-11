@@ -1,5 +1,5 @@
 <script setup>
-  import activityCardList from "./activityCardListTemplate.vue";
+  import activityCardList from "./activityCardList.vue";
   import {ref, onMounted} from 'vue';
   let savingMessage = ref('');
   
@@ -7,24 +7,26 @@
     // Global variables
     const downButtons = document.getElementsByClassName('buttonDownBox');
     const upButtons = document.getElementsByClassName('buttonUpBox');
+    const activityCardsContainer = document.querySelector('.activity-cards');
     let originalActivities = [];
     let activities = [];
     
-    // function fetchAndDrawActivities() {
-    //   // Performing an HTTP GET request to given URL using fetch function, 
-    //   return fetch('https://apprenticeship-2022-summer-backend.fly.dev/activities/')
-    //     // Receives reponse as parameter then converts to JSON format
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       activities = data;
+    function fetchAndDrawActivities() {
+      // Performing an HTTP GET request to given URL using fetch function, 
+      return fetch('https://apprenticeship-2022-summer-backend.fly.dev/activities/')
+        // Receives reponse as parameter then converts to JSON format
+        .then((response) => response.json())
+        .then((data) => {
+          activities = data;
     
-    //       // Sorting activities by position in day 
-    //       activities.sort(function(a, b) {
-    //         return a.positionInDay - b.positionInDay;
-    //       });
-          
-    //     })
-    // }
+          // Sorting activities by position in day 
+          activities.sort(function(a, b) {
+            return a.positionInDay - b.positionInDay;
+          });
+
+        drawActivities(activities)
+        })
+    }
     
     function drawActivities(activities) {
       const activityCardHtml = `
@@ -52,7 +54,6 @@
     
       let activityCardCount = 6;
       const cards = document.getElementsByClassName('activity-card');
-    
       let isLastActivity = false;
       let isFirstActivity = false;
     
@@ -185,123 +186,123 @@
       }
     }
     
-    // function onDownButtonClick(activities, i, currentPositionInDay) {
-    //   const calendarContent = document.querySelector('.calendar-content');
-    //   const activityCards = document.querySelector('.activity-cards');
-    //   savingMessage.value = '';
-    //   savingMessage.value = '';
-    //   savingMessage.value = 'saving';
-    //   activityCards.classList.add('activity-cards--disabled');
+    function onDownButtonClick(activities, i, currentPositionInDay) {
+      const calendarContent = document.querySelector('.calendar-content');
+      const activityCards = document.querySelector('.activity-cards');
+      savingMessage.value = '';
+      savingMessage.value = '';
+      savingMessage.value = 'saving';
+      activityCards.classList.add('activity-cards--disabled');
       
-    //   originalActivities = [...activities];
+      originalActivities = [...activities];
       
-    //   // Drawing new activity list
-    //   const newActivities = [...activities];
-    //   let temp = newActivities[i];
-    //   newActivities[i] = newActivities[i + 1];
-    //   newActivities[i + 1] = temp;
-    //   // drawActivities(newActivities)
+      // Drawing new activity list
+      const newActivities = [...activities];
+      let temp = newActivities[i];
+      newActivities[i] = newActivities[i + 1];
+      newActivities[i + 1] = temp;
+      drawActivities(newActivities)
     
-    //   fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i].id}`, {
-    //     method: 'PATCH',
-    //     body: JSON.stringify({
-    //       'positionInDay': activities[i + 1].positionInDay,
-    //     }),
-    //     headers: {
-    //       'content-type': 'application/json'
-    //     }
-    //   })
-    //     .then((response) => response.json())
-    //     .then((pos) => {
-    //       return fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i + 1].id}`, {
-    //         method: 'PATCH',
-    //         body: JSON.stringify({
-    //           'positionInDay': currentPositionInDay,
-    //         }),
-    //         headers: {
-    //           'content-type': 'application/json'
-    //         }
-    //       })
-    //         .then((response) => response.json())
-    //         .then((pos) => {
-    //           fetchAndDrawActivities();
-    //           activityCards.classList.remove('activity-cards--disabled');
-    //           savingMessage.value = '';
-    //           savingMessage.value = 'saved';
-    //           setTimeout(() => {
-    //             savingMessage.value = '';
-    //           }, 4000);
-    //         });
-    //     })
-    //     .catch((err) => {
-    //       // drawActivities(originalActivities);
-    //       savingMessage.value = '';
-    //       savingMessage.value = 'error';
-    //       activityCards.classList.remove('activity-cards--disabled');
-    //       setTimeout(function() {
-    //         savingMessage.value = '';
-    //       }, 4000);
-    //     })
-    // }
+      fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i].id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          'positionInDay': activities[i + 1].positionInDay,
+        }),
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+        .then((response) => response.json())
+        .then((pos) => {
+          return fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i + 1].id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({
+              'positionInDay': currentPositionInDay,
+            }),
+            headers: {
+              'content-type': 'application/json'
+            }
+          })
+            .then((response) => response.json())
+            .then((pos) => {
+              fetchAndDrawActivities();
+              activityCards.classList.remove('activity-cards--disabled');
+              savingMessage.value = '';
+              savingMessage.value = 'saved';
+              setTimeout(() => {
+                savingMessage.value = '';
+              }, 4000);
+            });
+        })
+        .catch((err) => {
+          drawActivities(originalActivities);
+          savingMessage.value = '';
+          savingMessage.value = 'error';
+          activityCards.classList.remove('activity-cards--disabled');
+          setTimeout(function() {
+            savingMessage.value = '';
+          }, 4000);
+        })
+    }
     
-    // function onUpButtonClick(activities, i, currentPositionInDay) {
-    //   const calendarContent = document.querySelector('.calendar-content');
-    //   const activityCards = document.querySelector('.activity-cards');
-    //   savingMessage.value = '';
-    //   savingMessage.value = '';
-    //   savingMessage.value = 'saving';
-    //   activityCards.classList.add('activity-cards--disabled');
+    function onUpButtonClick(activities, i, currentPositionInDay) {
+      const calendarContent = document.querySelector('.calendar-content');
+      const activityCards = document.querySelector('.activity-cards');
+      savingMessage.value = '';
+      savingMessage.value = '';
+      savingMessage.value = 'saving';
+      activityCards.classList.add('activity-cards--disabled');
     
-    //   originalActivities = [...activities];
+      originalActivities = [...activities];
       
-    //   // Drawing new activity list
-    //   const newActivities = [...activities];
-    //   let temp = newActivities[i];
-    //   newActivities[i] = newActivities[i - 1];
-    //   newActivities[i - 1] = temp;
-    //   // drawActivities(newActivities)
+      // Drawing new activity list
+      const newActivities = [...activities];
+      let temp = newActivities[i];
+      newActivities[i] = newActivities[i - 1];
+      newActivities[i - 1] = temp;
+      drawActivities(newActivities)
     
-    //   fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i].id}`, {
-    //     method: 'PATCH',
-    //     body: JSON.stringify({
-    //       'positionInDay': activities[i - 1].positionInDay,
-    //     }),
-    //     headers: {
-    //       'content-type': 'application/json'
-    //     }
-    //   })
-    //     .then((response) => response.json())
-    //     .then((pos) => {
-    //       return fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i - 1].id}`, {
-    //         method: 'PATCH',
-    //         body: JSON.stringify({
-    //           'positionInDay': currentPositionInDay,
-    //         }),
-    //         headers: {
-    //           'content-type': 'application/json'
-    //         }
-    //       })
-    //         .then((response) => response.json())
-    //         .then((pos) => {
-    //           fetchAndDrawActivities();
-    //           activityCards.classList.remove('activity-cards--disabled');
-    //           savingMessage.value = '';
-    //           savingMessage.value = 'saved';
-    //           setTimeout(() => {
-    //             savingMessage.value = '';
-    //           }, 4000);
-    //         });
-    //     })
-    //     .catch((err) => {
-    //       // drawActivities(originalActivities)
-    //       savingMessage.value = '';
-    //       savingMessage.value = 'error';
-    //       activityCards.classList.remove('activity-cards--disabled');
-    //       setTimeout(function() {
-    //         savingMessage.value = '';
-    //       }, 4000);
-    //     })
-    // }
+      fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i].id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          'positionInDay': activities[i - 1].positionInDay,
+        }),
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+        .then((response) => response.json())
+        .then((pos) => {
+          return fetch(`https://apprenticeship-2022-summer-backend.fly.dev/activities/${activities[i - 1].id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({
+              'positionInDay': currentPositionInDay,
+            }),
+            headers: {
+              'content-type': 'application/json'
+            }
+          })
+            .then((response) => response.json())
+            .then((pos) => {
+              fetchAndDrawActivities();
+              activityCards.classList.remove('activity-cards--disabled');
+              savingMessage.value = '';
+              savingMessage.value = 'saved';
+              setTimeout(() => {
+                savingMessage.value = '';
+              }, 4000);
+            });
+        })
+        .catch((err) => {
+          drawActivities(originalActivities)
+          savingMessage.value = '';
+          savingMessage.value = 'error';
+          activityCards.classList.remove('activity-cards--disabled');
+          setTimeout(function() {
+            savingMessage.value = '';
+          }, 4000);
+        })
+    }
     
     function drawCurrentDate() {
       function updateDate() {
@@ -448,7 +449,7 @@ onMounted(setUpPlanPage)
         </div>
         <!-- Div responsible for holding the activity cards -->
         <div class="activity-cards">
-          <activityCardList/>
+          <activityCardList/> 
         </div>
       </div>
     </div>
@@ -554,51 +555,6 @@ onMounted(setUpPlanPage)
   border-color: #2F2B2C !important;
 }
 
-/* Navigation-bar */
-.logo {
-  width: 171px;
-  height: 24px;
-  flex-shrink: 0;
-  position: absolute;
-  left: 0;
-  margin-left: 30px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.ellipse {
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  position: absolute;
-  right: 0;
-  margin-top: 16px;
-  margin-bottom: 16px;
-  margin-right: 106px;
-}
-
-.person {
-  width: 22px;
-  height: 22px;
-  position: absolute;
-  right: 0;
-  margin-right: 111px;
-}
-
-.username {
-  position: absolute;
-  font-size: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
-  color: black;
-  right: 0;
-  margin-right: 30px;
-  margin-top: 22px;
-  margin-bottom: 22px;
-}
-/* End of navigation-bar */
 #daynum {
   margin-left: 5px;
 }

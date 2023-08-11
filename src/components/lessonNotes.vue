@@ -40,7 +40,6 @@
     })
     .then((response) => response.json())
       .then((_pos) => {
-        savingMessage.value = '';
         savingMessage.value = 'saved';
         disabledState.value = false;
         inEditMode.value = false;

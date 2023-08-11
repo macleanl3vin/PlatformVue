@@ -1,10 +1,10 @@
 <template>
-  <activityCard v-for="activity in activities" :activity="activity"/>
+  <activityCard v-for="(activity, index) in activities" :activity="activity" :activities="activities" :index="index" :key="index"/>
 </template>
 
 <script setup>
   import {ref, onMounted, defineProps} from 'vue';
-  import activityCard from "./activityCardTemplate.vue";
+  import activityCard from "./activityCard.vue";
   const activities = ref([]);
   
   fetch('https://apprenticeship-2022-summer-backend.fly.dev/activities/')
@@ -13,9 +13,7 @@
     .then((data) => {
       activities.value = data;
   });
-  
 </script>
-
 <style>
 .activity-card {
   display: flex;

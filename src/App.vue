@@ -1,7 +1,7 @@
 <script setup>
-  import navBar from './components/navBarTemplate.vue';
-  import lessonPlan from './components/lessonPlanTemplate.vue';
-  import lessonNotes from './components/lessonNotesTemplate.vue';
+  import navBar from './components/navBar.vue';
+  import lessonPlan from './components/lessonPlan.vue';
+  import lessonNotes from './components/lessonNotes.vue';
 </script>
 
 <template>
