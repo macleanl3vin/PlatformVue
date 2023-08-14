@@ -100,6 +100,12 @@
     if (index > 0) {
       emit('toggle-button-state', true);
       emit('set-saving-message', 'saving')
+      
+      // Swap positionInDay values
+      const temp1 = activities[index].positionInDay;
+      activities[index].positionInDay = activities[index - 1].positionInDay;
+      activities[index - 1].positionInDay = temp1;
+      
       // Swap activities in the array
       const temp = activities[index];
       activities[index] = activities[index - 1];
@@ -135,8 +141,18 @@
             });
         })
         .catch((err) => {
-           emit('set-saving-message', 'error')
+          emit('set-saving-message', 'error')
           emit('toggle-button-state', false);
+          
+          // Swap activities in the array
+          const temp1 = activities[index].positionInDay;
+          activities[index].positionInDay = activities[index - 1].positionInDay;
+          activities[index - 1].positionInDay = temp1;
+          
+          // Swap activities in the array
+          const temp = activities[index];
+          activities[index] = activities[index - 1];
+          activities[index - 1] = temp;
           
           setTimeout(function() {
             emit('set-saving-message', '')
