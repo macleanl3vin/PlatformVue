@@ -2,6 +2,7 @@
   import activityCardList from "./activityCardList.vue";
   import {ref, onMounted} from 'vue';
   let savingMessage = ref('');
+  let disabledState = ref(false);
   
   function setUpPlanPage() {
     // Global variables
@@ -371,6 +372,23 @@
     drawCurrentDate();
   }
 onMounted(setUpPlanPage)
+    
+  function buttonsDisabled() {
+    const cards = ['activity-cards']
+    if(disabledState.value) {
+      cards.push('activity-cards--disabled');
+    }
+    return cards;
+  }
+    
+  function toggleDisabledState(newState) {
+    disabledState.value = newState;
+  }
+
+  function savingState(newState) {
+    savingMessage.value = newState;
+  }
+    
 </script>
 
 <template>
@@ -448,8 +466,8 @@ onMounted(setUpPlanPage)
           </div>
         </div>
         <!-- Div responsible for holding the activity cards -->
-        <div class="activity-cards">
-          <activityCardList/> 
+        <div :class="buttonsDisabled()">
+          <activityCardList :disabledState="disabledState" @toggle-button-state="toggleDisabledState" :savingMessage="savingMessage" @set-saving-message="savingState"/> 
         </div>
       </div>
     </div>

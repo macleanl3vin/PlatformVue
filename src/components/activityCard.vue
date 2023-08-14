@@ -1,12 +1,12 @@
 <template>
   <div class="activity-card" :style="activityCardStyles(activity)">
-    <div class="buttonDownBox" :style="buttonStyles(activity, index, false, activities)">
+    <div class="buttonDownBox" @click="moveDown" :style="buttonStyles(activity, index, false, activities)">
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="button-down">
         <path d="M9.33325 12.6667L15.9999 19.3334L22.6666 12.6667H9.33325Z" fill-opacity="0.8" :style="buttonDownPathStyle(activities, index)"/>
       </svg>
     </div>
 
-    <div class="buttonUpBox" :style="buttonStyles(activity, index, true, activities)">
+    <div class="buttonUpBox" @click="moveUp" :style="buttonStyles(activity, index, true, activities)">
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" class="button-up">
         <path d="M9.33325 19.3334L15.9999 12.6667L22.6666 19.3334H9.33325Z" fill-opacity="0.8" :style="buttonUpPathStyle(activities, index)"/>
       </svg>
@@ -23,8 +23,8 @@
 </template>
 
 <script setup>
-  import {ref, onMounted, defineProps} from 'vue';
-  
+  import {ref, onMounted, defineProps, defineEmits} from 'vue';
+
   const props = defineProps({
     activity: {
       type: Object
@@ -35,10 +35,19 @@
     index: {
       type: Number
     },
-    isUpButton: {
-      type: Boolean
-    }
   });
+  
+  const emit = defineEmits();
+
+  const index = ref(props.index)
+
+  const moveUp = () => {
+    emit('moveup', index);
+  };
+  
+  const moveDown = () => {
+    emit('movedown', index);
+  };
   
   function activityCardStyles(activity) {
     const style = {height: `${(activity.durationMinutes/5) * 38}px`};
@@ -85,12 +94,6 @@
     } 
     return style; 
   };
-  
-  function test(activities, index) {
-    const style = {};
-    style['border-color'] = '#DF340F'
-    console.log('yeah')
-  }
   
   function buttonUpPathStyle(activities, index) {
     const style = {};
