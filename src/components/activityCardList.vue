@@ -5,9 +5,22 @@
 <script setup>
   import {ref, onMounted, defineProps, defineEmits} from 'vue';
   import activityCard from "./activityCard.vue";
+  import { db } from '@/firebase.js';
   const activities = ref([]);
   const savingMessage = ref('');
   let originalActivities = ref([]);
+
+  // const activitiesCollection = db.collection('activities');
+
+  // activitiesCollection.onSnapshot(snapshot => {
+  //   const data = [];
+
+  //   snapshot.forEach(doc => {
+  //     data.push({ id: doc.id, ...doc.data() });
+  //   });
+
+  //   activities.value = data;
+  // });  
   
   const props = defineProps({
     disabledState: {
@@ -20,18 +33,18 @@
 
   const emit = defineEmits();
   
-  fetch('https://apprenticeship-2022-summer-backend.fly.dev/activities/')
-    // Receives reponse as parameter then converts to JSON format
-    .then((response) => response.json())
-    .then((data) => {
-      activities.value = data;
+  // fetch('https://apprenticeship-2022-summer-backend.fly.dev/activities/')
+  //   // Receives reponse as parameter then converts to JSON format
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     activities.value = data;
       
-      // Sorting activities by position in day 
-      activities.value.sort(function(a, b) {
-        return a.positionInDay - b.positionInDay;
-      })
+  //     // Sorting activities by position in day 
+  //     activities.value.sort(function(a, b) {
+  //       return a.positionInDay - b.positionInDay;
+  //     })
       
-  });
+  // });
   
   function onDownButtonClick(activities, index) {
     if (index < activities.length - 1) {

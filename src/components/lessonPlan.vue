@@ -1,6 +1,7 @@
 <script setup>
   import activityCardList from "./activityCardList.vue";
   import {ref, onMounted} from 'vue';
+  import { db } from '@/firebase.js';
   let savingMessage = ref('');
   let disabledState = ref(false);
   
