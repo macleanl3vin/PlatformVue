@@ -73,7 +73,7 @@
   }
   onMounted(setUpPlanPage);
     
-  function buttonsDisabled() {
+  function activityCardClasses() {
     const classes = ['activity-cards'];
     if (disabledState.value) {
       classes.push('activity-cards--disabled');
@@ -165,7 +165,7 @@
           </div>
         </div>
         <!-- Div responsible for holding the activity cards -->
-        <div :class="buttonsDisabled()">
+        <div :class="activityCardClasses()">
           <activityCardList :disabledState="disabledState" @toggle-button-state="toggleDisabledState" :savingMessage="savingMessage" @set-saving-message="savingState"/> 
         </div>
       </div>

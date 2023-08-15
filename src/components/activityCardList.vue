@@ -1,5 +1,5 @@
 <template>
-  <activityCard v-for="(activity, index) in activities" :activity="activity" :activities="activities" :index="index" :key="index" @movedown="onDownButtonClick(activities, index)" @moveup="onUpButtonClick(activities, index)"/>
+  <activityCard v-for="(activity, index) in activities" :activity="activity" :activities="activities" :index="index" :key="index" :isFirst="isFirst(index)" :isLast="isLast(activities, index)" @movedown="onDownButtonClick(activities, index)" @moveup="onUpButtonClick(activities, index)"/>
 </template>
 
 <script setup>
@@ -9,7 +9,22 @@
   const activities = ref([]);
   const savingMessage = ref('');
   let originalActivities = ref([]);
-
+  let index = ref(props.index)
+                 
+  function isFirst(index) {
+    if (index === 0) {
+      return true;
+    }
+    return false;
+  };
+  
+  function isLast(activities, index) {
+    if (index === activities.length - 1) {
+      return true;
+    }
+    return false;
+  };
+  
   // const activitiesCollection = db.collection('activities');
 
   // activitiesCollection.onSnapshot(snapshot => {
@@ -178,62 +193,3 @@
   }
 </script>
 
-<style>
-  .activity-card {
-    display: flex;
-    flex-wrap: wrap;
-    border: 3px solid #ffffff;
-    box-sizing: border-box;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-  }
-  .title-container {
-    flex-direction: column;
-    height: 30px;
-  }
-  
-  .title {
-    color: #2f2b2c;
-    /* activity title */
-    font-size: 14px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 14px;
-    margin-left: 16px;
-    margin-bottom: 3px;
-    margin-top: 5px;
-  }
-  
-  .activity-type {
-    color: #2f2b2c;
-    /* activity description */
-    font-size: 14px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 14px;
-    margin-left: 16px;
-    margin-top: 2px;
-  }
-  
-  .time-duration {
-    flex-direction: column;
-  }
-  
-  h1.duration {
-    display: flex;
-    color: #2f2b2c;
-    /* activity detail */
-    font-size: 12px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-style: normal;
-    font-weight: 300;
-    margin-left: 16px;
-    height: 20px;
-  }
-</style>

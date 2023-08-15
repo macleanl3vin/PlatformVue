@@ -19,13 +19,13 @@
     return classes;
   }
 
-  function editButton() {
+  function editButtonClicked() {
     inEditMode.value = true;
     
     savingMessage.value = '';
   };    
 
-  function saveButton() {
+  function saveButtonClicked() {
     savingMessage.value = 'saving';
     disabledState.value = true;
 
@@ -60,7 +60,7 @@
       }); 
   }
 
-  function cancelButton() { 
+  function cancelButtonClicked() { 
     let shouldCancel = confirm("Are you sure you want to cancel? Your changes will not be saved.");
     
     if (shouldCancel) {
@@ -97,16 +97,16 @@
     <div class="notes-header">
       <h1>Lesson Notes</h1>
       <div :class="buttonContainerClasses()">
-        <div @click="editButton()" class="edit-button">
+        <div @click="editButtonClicked()" class="edit-button">
           <img src="./icons/arrow_up.svg" class="edit"/>
           <img src="./icons/arrow_up1.svg" class="edit-hover"/>
         </div>
         
-        <div @click="saveButton()" class="save-button">
+        <div @click="saveButtonClicked()" class="save-button">
           <h1 class="save-text">SAVE</h1>
         </div>
 
-        <div @click="cancelButton()" class="cancel-button">
+        <div @click="cancelButtonClicked()" class="cancel-button">
           <h1 class="cancel-text">CANCEL</h1>
         </div>
       </div>
