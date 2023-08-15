@@ -9,11 +9,11 @@
   let disabledState = ref(false);
 
   function buttonContainerClasses() {
-    const classes = ['button-container']
+    const classes = ['button-container'];
     if (inEditMode.value) {
       classes.push('button-container--edit', 'button-container--save', 'button-container--cancel');
     }
-    if(disabledState.value){
+    if (disabledState.value) {
       classes.push('button-container--disabled');
     }
     return classes;
@@ -38,7 +38,7 @@
         'content-type': 'application/json'
       }
     })
-    .then((response) => response.json())
+      .then((response) => response.json())
       .then((_pos) => {
         savingMessage.value = 'saved';
         disabledState.value = false;
@@ -49,8 +49,8 @@
         }, 4000);
       })
       .catch((_err) => {
-        savingMessage.value = '';
         savingMessage.value = 'error';
+        disabledState.value = false;
         
         currentMarkdownString.value = originalMarkdownString;
         
@@ -67,7 +67,7 @@
       currentMarkdownString.value = originalMarkdownString;
       inEditMode.value = false;
     }
-  };
+  }
   
   function drawLessonNotes() {
     // Disable deprecation warnings introduced in marked v5
@@ -81,7 +81,8 @@
         
         currentMarkdownString.value = originalMarkdownString;
       })
-  };
+  }
+  onMounted(drawLessonNotes);
   
   function markdownAsHtml() {
     if (currentMarkdownString.value === null) {
@@ -89,7 +90,6 @@
     }
     return marked.parse(currentMarkdownString.value);
   }  
-  onMounted(drawLessonNotes);
 </script>
 
 <template>
@@ -110,7 +110,7 @@
           <h1 class="cancel-text">CANCEL</h1>
         </div>
       </div>
-      <div class='message-container'>  
+      <div class="message-container">  
         <h1 v-show="savingMessage == 'saving'" class="save-message">Saving...</h1>
         <h1 v-show="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
         <h1 v-show="savingMessage == 'error'" class="error-message"><img src="./icons/warning_amber.svg">Save Error</h1>
@@ -119,7 +119,7 @@
 
     <div class="notes-content" style="overflow-y: scroll;">
       <div v-if="currentMarkdownString === null"></div>
-      <textarea v-else-if="inEditMode" id="input" rows='50' v-model="currentMarkdownString">{{currentMarkdownString}}</textarea>
+      <textarea v-else-if="inEditMode" id="input" rows="50" v-model="currentMarkdownString">{{currentMarkdownString}}</textarea>
       <div v-else-if="!inEditMode" v-html="markdownAsHtml()"></div>
       <div v-if="!inEditMode" class="notes-fadeout"></div>
     </div> 

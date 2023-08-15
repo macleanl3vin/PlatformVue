@@ -39,7 +39,7 @@
   
   const emit = defineEmits();
 
-  const index = ref(props.index)
+  const index = ref(props.index);
 
   const moveUp = () => {
     emit('moveup', index);
@@ -104,6 +104,5 @@
     }
     return style; 
   };
-
 </script>
 

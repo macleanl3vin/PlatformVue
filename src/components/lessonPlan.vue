@@ -1,7 +1,7 @@
 <script setup>
   import activityCardList from "./activityCardList.vue";
   import {ref, onMounted} from 'vue';
-  import { db } from '@/firebase.js';
+  import {db} from '@/firebase.js';
   let savingMessage = ref('');
   let disabledState = ref(false);
   
@@ -71,14 +71,14 @@
 
     drawCurrentDate();
   }
-onMounted(setUpPlanPage)
+  onMounted(setUpPlanPage);
     
   function buttonsDisabled() {
-    const cards = ['activity-cards']
-    if(disabledState.value) {
-      cards.push('activity-cards--disabled');
+    const classes = ['activity-cards'];
+    if (disabledState.value) {
+      classes.push('activity-cards--disabled');
     }
-    return cards;
+    return classes;
   }
     
   function toggleDisabledState(newState) {
@@ -88,7 +88,6 @@ onMounted(setUpPlanPage)
   function savingState(newState) {
     savingMessage.value = newState;
   }
-    
 </script>
 
 <template>
@@ -105,7 +104,7 @@ onMounted(setUpPlanPage)
           <span id="daynum"> 00</span>
         </div>
         
-        <h1 v-show="savingMessage == 'saving'" class="save-message" >Saving...</h1>
+        <h1 v-show="savingMessage == 'saving'" class="save-message">Saving...</h1>
         <h1 v-show="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
         <h1 v-show="savingMessage == 'error'" class="error-message"><img src="./icons/warning_amber.svg">Save Error</h1>
       </div>
@@ -175,229 +174,228 @@ onMounted(setUpPlanPage)
 </template>  
 
 <style>
-/* Styles for messages related to move button cases */
-.save-message,
-.saved-message,
-.error-message {
-  position: absolute;
-  right: 0;
-  margin-right: 18px;
-  color: #2f2b2c;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  /* visibility: hidden; */
-  margin-top: 2px;
-  gap: 5px;
-}
-
-.calendar-content--saving .save-message,
-.calendar-content--saved .saved-message,
-.calendar-content--error .error-message {
-  visibility: visible;
-}
-
-.activity-card {
-  display: flex;
-  flex-wrap: wrap;
-  border: 3px solid #ffffff;
-  box-sizing: border-box;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-}
-
-/* Down-button styling */
-.buttonDownBox {
-  position: absolute;
-  width: 33px;
-  height: 33px;
-  right: 0;
-  border: 1px solid;
-  border-radius: 3px;
-  margin-right: 16px;
-  margin-top: 13px;
-}
-
-.activity-cards--disabled .buttonDownBox {
-  background-color: transparent !important;
-  pointer-events: none;
-}
-
-.activity-cards--disabled .buttonDownBox .button-down path {
-  fill-opacity: 0.25;
-}
-
-.activity-card:not(:last-child) .activity-cards:not(.activity-cards--disabled) .button-down:hover path {
-  fill: #2F2B2C;
-  fill-opacity: 1;
-}
-
-.activity-cards:not(.activity-cards--disabled) .activity-card:not(:last-child) .buttonDownBox:hover {
-  background-color: rgba(117, 117, 117, 0.40) !important;
-  border-color: #2F2B2C !important;
-}
-
-/* Up-button styling */
-.buttonUpBox {
-  position: absolute;
-  width: 33px;
-  height: 33px;
-  right: 0;
-  border: 1px solid;
-  border-radius: 3px;
-  margin-right: 56px;
-  margin-top: 13px;
-}
-
-.activity-cards--disabled .buttonUpBox {
-  background-color: transparent !important;
-  pointer-events: none;
-}
-
-.activity-cards--disabled .buttonUpBox .button-up path {
-  fill-opacity: 0.25;
-}
-
-.activity-card:not(:first-child) .activity-cards:not(.activity-cards--disabled) .button-up:hover path {
-  fill: #2F2B2C;
-  fill-opacity: 1;
-}
-
-.activity-cards:not(.activity-cards--disabled) .activity-card:not(:first-child) .buttonUpBox:hover {
-  background-color: rgba(117, 117, 117, 0.40) !important;
-  border-color: #2F2B2C !important;
-}
-
-#daynum {
-  margin-left: 5px;
-}
-
-.calendar-content {
-  display: flex;
-  height: 100%;
-  background-color: #ffffff;
-  flex-direction: column;
-  box-shadow: 2px 2px 3px 0px #d6d6d6;
-}
-
-.schedule-content {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
-
-h1 {
-  font-size: 26px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 25px;
-  color: #90c54b;
-}
-
-/* Content inside lesson-plan */
-.date-container {
-  position: relative;
-  display: flex;
-  height: 48px;
-  flex-shrink: 0;
-  background-color: #eeeeee;
-  padding: 10px;
-  margin-bottom: 2px;
-}
-
-.date-display {
-  font-size: 26px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-style: normal;
-  font-weight: 340;
-  line-height: 24px;
-}
-
-.time {
-  height: 38px;
-  border-top: 1px solid #d6d6d6;
-  border-right: 1px solid #d6d6d6;
-  border-left: 1px solid #d6d6d6;
-  background: #eee;
-}
-
-.time-format {
-  color: #757575;
-  text-align: right;
-  /* body */
-  font-size: 17px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  margin-right: 10px;
-  margin-top: 7px;
-}
-
-.title-container {
-  flex-direction: column;
-  height: 30px;
-}
-
-.title {
-  color: #2f2b2c;
-  /* activity title */
-  font-size: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 14px;
-  margin-left: 16px;
-  margin-bottom: 3px;
-  margin-top: 5px;
-}
-
-.activity-type {
-  color: #2f2b2c;
-  /* activity description */
-  font-size: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 14px;
-  margin-left: 16px;
-  margin-top: 2px;
-}
-
-.time-duration {
-  flex-direction: column;
-}
-
-.notes-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: -1px;
-  padding-left: 2px;
-}
-
-h1.duration {
-  display: flex;
-  color: #2f2b2c;
-  /* activity detail */
-  font-size: 12px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-style: normal;
-  font-weight: 300;
-  margin-left: 16px;
-  height: 20px;
-}
-
+  /* Styles for messages related to move button cases */
+  .save-message,
+  .saved-message,
+  .error-message {
+    position: absolute;
+    right: 0;
+    margin-right: 18px;
+    color: #2f2b2c;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    /* visibility: hidden; */
+    margin-top: 2px;
+    gap: 5px;
+  }
+  
+  .calendar-content--saving .save-message,
+  .calendar-content--saved .saved-message,
+  .calendar-content--error .error-message {
+    visibility: visible;
+  }
+  
+  .activity-card {
+    display: flex;
+    flex-wrap: wrap;
+    border: 3px solid #ffffff;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  
+  /* Down-button styling */
+  .buttonDownBox {
+    position: absolute;
+    width: 33px;
+    height: 33px;
+    right: 0;
+    border: 1px solid;
+    border-radius: 3px;
+    margin-right: 16px;
+    margin-top: 13px;
+  }
+  
+  .activity-cards--disabled .buttonDownBox {
+    background-color: transparent !important;
+    pointer-events: none;
+  }
+  
+  .activity-cards--disabled .buttonDownBox .button-down path {
+    fill-opacity: 0.25;
+  }
+  
+  .activity-card:not(:last-child) .activity-cards:not(.activity-cards--disabled) .button-down:hover path {
+    fill: #2F2B2C;
+    fill-opacity: 1;
+  }
+  
+  .activity-cards:not(.activity-cards--disabled) .activity-card:not(:last-child) .buttonDownBox:hover {
+    background-color: rgba(117, 117, 117, 0.40) !important;
+    border-color: #2F2B2C !important;
+  }
+  
+  /* Up-button styling */
+  .buttonUpBox {
+    position: absolute;
+    width: 33px;
+    height: 33px;
+    right: 0;
+    border: 1px solid;
+    border-radius: 3px;
+    margin-right: 56px;
+    margin-top: 13px;
+  }
+  
+  .activity-cards--disabled .buttonUpBox {
+    background-color: transparent !important;
+    pointer-events: none;
+  }
+  
+  .activity-cards--disabled .buttonUpBox .button-up path {
+    fill-opacity: 0.25;
+  }
+  
+  .activity-card:not(:first-child) .activity-cards:not(.activity-cards--disabled) .button-up:hover path {
+    fill: #2F2B2C;
+    fill-opacity: 1;
+  }
+  
+  .activity-cards:not(.activity-cards--disabled) .activity-card:not(:first-child) .buttonUpBox:hover {
+    background-color: rgba(117, 117, 117, 0.40) !important;
+    border-color: #2F2B2C !important;
+  }
+  
+  #daynum {
+    margin-left: 5px;
+  }
+  
+  .calendar-content {
+    display: flex;
+    height: 100%;
+    background-color: #ffffff;
+    flex-direction: column;
+    box-shadow: 2px 2px 3px 0px #d6d6d6;
+  }
+  
+  .schedule-content {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+  
+  h1 {
+    font-size: 26px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 25px;
+    color: #90c54b;
+  }
+  
+  /* Content inside lesson-plan */
+  .date-container {
+    position: relative;
+    display: flex;
+    height: 48px;
+    flex-shrink: 0;
+    background-color: #eeeeee;
+    padding: 10px;
+    margin-bottom: 2px;
+  }
+  
+  .date-display {
+    font-size: 26px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: 340;
+    line-height: 24px;
+  }
+  
+  .time {
+    height: 38px;
+    border-top: 1px solid #d6d6d6;
+    border-right: 1px solid #d6d6d6;
+    border-left: 1px solid #d6d6d6;
+    background: #eee;
+  }
+  
+  .time-format {
+    color: #757575;
+    text-align: right;
+    /* body */
+    font-size: 17px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-right: 10px;
+    margin-top: 7px;
+  }
+  
+  .title-container {
+    flex-direction: column;
+    height: 30px;
+  }
+  
+  .title {
+    color: #2f2b2c;
+    /* activity title */
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+    margin-left: 16px;
+    margin-bottom: 3px;
+    margin-top: 5px;
+  }
+  
+  .activity-type {
+    color: #2f2b2c;
+    /* activity description */
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px;
+    margin-left: 16px;
+    margin-top: 2px;
+  }
+  
+  .time-duration {
+    flex-direction: column;
+  }
+  
+  .notes-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: -1px;
+    padding-left: 2px;
+  }
+  
+  h1.duration {
+    display: flex;
+    color: #2f2b2c;
+    /* activity detail */
+    font-size: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    margin-left: 16px;
+    height: 20px;
+  }
 </style>
