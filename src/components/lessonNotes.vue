@@ -1,15 +1,40 @@
 <script setup>
   import {marked} from 'marked';
   import {ref, onMounted} from 'vue';
+  import {db} from '/src/firebase.js'
+  import { getFirestore, collection, getDocs, doc, updateDoc } from "firebase/firestore";
   
   let savingMessage = ref('');
   let currentMarkdownString = ref(null);
   let inEditMode = ref(false);
   let originalMarkdownString = '';
   let disabledState = ref(false);
-
+  let markdown;
+  
+  const lessonNote = collection(db, 'lessonNote');
+  const lessonNoteDocuments = getDocs(lessonNote);
+  
+  
+  function drawLessonNotes() {
+    // Disable deprecation warnings introduced in marked v5
+    // https://github.com/markedjs/marked/releases/tag/v5.0.0
+    marked.use({mangle: false, headerIds: false});
+    
+    lessonNoteDocuments
+      .then(lessonNoteDocuments => {
+        lessonNoteDocuments.forEach((doc) => {
+          markdown = doc.data();
+        }); 
+        originalMarkdownString = markdown.contentMarkdown;
+        currentMarkdownString.value = originalMarkdownString;
+      });
+  }
+  onMounted(drawLessonNotes);
+  
+  
   function buttonContainerClasses() {
     const classes = ['button-container'];
+    
     if (inEditMode.value) {
       classes.push('button-container--edit', 'button-container--save', 'button-container--cancel');
     }
@@ -26,40 +51,44 @@
   };    
 
   function saveButtonClicked() {
-    savingMessage.value = 'saving';
-    disabledState.value = true;
+      savingMessage.value = 'saving';
+      disabledState.value = true;
 
-    fetch('https://apprenticeship-2022-summer-backend.fly.dev/lesson-note', {
-      method: 'PATCH',
-      body: JSON.stringify({
-        'contentMarkdown': currentMarkdownString.value,
-      }),
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then((response) => response.json())
-      .then((_pos) => {
-        savingMessage.value = 'saved';
-        disabledState.value = false;
-        inEditMode.value = false;
-   
-        setTimeout(function() {
-          savingMessage.value = '';
-        }, 4000);
-      })
-      .catch((_err) => {
-        savingMessage.value = 'error';
-        disabledState.value = false;
-        
-        currentMarkdownString.value = originalMarkdownString;
-        
-        setTimeout(function() {
-          savingMessage.value = '';
-        }, 4000);
-      }); 
+      const documentRef = doc(lessonNote, 'markdown');
+    
+      const newData = {
+        contentMarkdown: currentMarkdownString.value
+      };
+
+      updateDoc2(documentRef, newData)
+        .then(() => {
+          savingMessage.value = 'saved';
+          disabledState.value = false;
+          inEditMode.value = false;
+
+          setTimeout(function() {
+            savingMessage.value = '';
+          }, 4000);
+        })
+        .catch((_err) => {
+          savingMessage.value = 'error';
+          disabledState.value = false;
+                
+          setTimeout(function() {
+            savingMessage.value = '';
+          }, 4000);
+        }); 
   }
 
+  function updateDoc2(documentRef, newData) {
+    if (!navigator.onLine) {
+      return Promise.reject();
+    }
+    else {
+      return updateDoc(documentRef, newData);
+    }
+  }
+  
   function cancelButtonClicked() { 
     let shouldCancel = confirm("Are you sure you want to cancel? Your changes will not be saved.");
     
@@ -68,21 +97,6 @@
       inEditMode.value = false;
     }
   }
-  
-  function drawLessonNotes() {
-    // Disable deprecation warnings introduced in marked v5
-    // https://github.com/markedjs/marked/releases/tag/v5.0.0
-    marked.use({mangle: false, headerIds: false});
-    
-    return fetch('https://apprenticeship-2022-summer-backend.fly.dev/lesson-note')
-      .then((response) => response.json())
-      .then((data) => {
-        originalMarkdownString = data.contentMarkdown;
-        
-        currentMarkdownString.value = originalMarkdownString;
-      })
-  }
-  onMounted(drawLessonNotes);
   
   function markdownAsHtml() {
     if (currentMarkdownString.value === null) {

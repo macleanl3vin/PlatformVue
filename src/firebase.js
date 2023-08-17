@@ -17,28 +17,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Selecting a specific collection
-const activities = collection(db, 'activities');
-
-
-// How we can loop through all of the documents and their fields 
-// In this case we're getting all the documents inside the activities collection
-const activityDocuments = await getDocs(activities);
-activityDocuments.forEach((doc) => {
-  console.log(doc.data());
-});
-
-// How we can select specific documents in a collection and update specific fields in the backend 
-const documentRef = doc(activities, '1');
-const newData = {
-  title: 'I like pie'
-}
-await updateDoc(documentRef, newData)
-
-
-
-
-
 export {db};
 
 
