@@ -13,3 +13,5 @@
    
 # How does it work?
 ![undefined-high](https://github.com/macleanl3vin/PlatformVue/assets/91438214/87122792-c6ca-4f98-9f3a-d58b3ea9ff1b)
+
+![undefined-high (1)](https://github.com/macleanl3vin/PlatformVue/assets/91438214/70782fe8-7265-4b6f-9f7d-a0008bc32d50)
