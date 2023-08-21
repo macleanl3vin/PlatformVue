@@ -5,18 +5,16 @@ This is a Industry Authentic full-stack web app to assist teachers in managing t
 1. Build a Responsive Web Page
 - Create a responsive web page using HTML, CSS, and JavaScript.
   - Use design information from Figma to structure and style the page.
-  - Populate lesson plan content with JavaScript objects.
+  - Populate the lesson plan content with JavaScript objects.
   --------------------------------------------------
 2. Extend the Page with a Dynamic Lesson Plan
-- Allow teachers to rearrange activities in their lesson plans.
+- Allow teachers to rearrange activities in their lesson plans using responsive down/up buttons.
   - Implement backend integration using REST APIs to save changes.
-  - Provide a user-friendly way to tailor lesson plans.
   - Solve the challenge of inflexible lesson plan reordering.
 --------------------------------------------------
 3. Extend the Page with a Lesson Notes Editor
 - Add a Markdown editor for editing lesson notes.
   - Save edited notes to the backend database.
-  - Enhance flexibility in adapting lesson notes to changing needs.
   - Address the issue of outdated lesson notes management.
 --------------------------------------------------
 Milestone 4: Decompose the Page into Components
@@ -33,6 +31,9 @@ Milestone 5: Integrate the Page with a Serverless Database
 Throughout the project, various technologies such as Replit, Figma, Vue, VueFire, and Google Cloud Firestore are employed. The project aims to create a user-friendly platform for teachers while showcasing software development skills and principles, including responsive design, data-driven approaches, component-based architecture, and integration with serverless databases.
 ------------------------------------------------------------
 # How does it work?
+------------------------------------------------------------
+## Rearrange activity-cards using up/down buttons:  
 ![undefined-high](https://github.com/macleanl3vin/PlatformVue/assets/91438214/87122792-c6ca-4f98-9f3a-d58b3ea9ff1b)
 ------------------------------------------------------------
+## Rearrange activity-cards using up/down buttons, network error case:
 ![undefined-high (1)](https://github.com/macleanl3vin/PlatformVue/assets/91438214/70782fe8-7265-4b6f-9f7d-a0008bc32d50)
