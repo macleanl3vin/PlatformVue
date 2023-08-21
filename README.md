@@ -34,7 +34,7 @@ Milestone 5: Integrate the Page with a Serverless Database
 --------------------------------------------------
 # How does it work?
 
---------------------------------------------------
+------------------------------------------------------------
 ## Lesson Plan card: 
 ### Rearranging activity-cards using up/down buttons, success-case: 
 
