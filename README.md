@@ -1,17 +1,6 @@
 # PlatformVue
 # What is this? 
-- This is a Industry Authentic Full-stack website that uses the following technologies:
-  - HTML/CSS
-    - Used to define the structure of the web content, CSS styles and designs the appearance of the content. 
-  - JavaScript
-    - Adds interactivity and dynamic behavior to the web page.
-  - Vue JS
-    - Framework used to build the user interface with reactive components. 
-  - Firebase/Firestore
-    - Serves as the real-time cloud database, storing and syncing data for my website.
-    - Enables dynamic content updates and efficent data management.
-  
-- The project involves building a web application to assist teachers in managing their daily lesson plans and lesson notes more effectively. It's divided into several milestones:
+- This is a Industry Authentic Full-stack website it involves building a web application to assist teachers in managing their daily lesson plans and lesson notes more effectively. It's divided into several milestones:
 
 1. Build a Responsive Web Page
 - Create a responsive web page using HTML, CSS, and JavaScript.
@@ -49,6 +38,18 @@ Milestone 5: Integrate the Page with a Serverless Database
   - Provide real-time updates and improved data storage.
 
 Throughout the project, various technologies such as Replit, Figma, Vue, VueFire, and Google Cloud Firestore are employed. The project aims to create a user-friendly platform for teachers while showcasing software development skills and principles, including responsive design, data-driven approaches, component-based architecture, and integration with serverless databases.
+
+
+- HTML/CSS
+  - Used to define the structure of the web content, CSS styles and designs the appearance of the content. 
+- JavaScript
+  - Adds interactivity and dynamic behavior to the web page.
+- Vue JS
+  - Framework used to build the user interface with reactive components. 
+- Firebase/Firestore
+  - Serves as the real-time cloud database, storing and syncing data for my website.
+  - Enables dynamic content updates and efficent data management.
+
 
 # How does it work?
 ![undefined-high](https://github.com/macleanl3vin/PlatformVue/assets/91438214/87122792-c6ca-4f98-9f3a-d58b3ea9ff1b)
