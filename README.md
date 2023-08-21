@@ -2,17 +2,17 @@
 # What is this? 
 This is a Industry Authentic full-stack web app to assist teachers in managing their daily lesson plans and lesson notes more effectively. It's divided into several milestones:
 
-1.&nbsp;Build a Responsive Web Page.
+Milestone 1.&nbsp;Build a Responsive Web Page.
 - Create a responsive web page using HTML, CSS, and JavaScript.
   - Use design information from Figma to structure and style the page.
   - Populate the lesson plan content with JavaScript objects.
 --------------------------------------------------
-2.&nbsp;Extend the Page with a Dynamic Lesson Plan
+Milestone 2.Extend the Page with a Dynamic Lesson Plan&nbsp;
 - Allow teachers to rearrange activities in their lesson plans using responsive down/up buttons.
   - Implement backend integration using REST APIs to save changes.
   - Solve the challenge of inflexible lesson plan reordering.
 --------------------------------------------------
-3.&nbsp;Extend the Page with a Lesson Notes Editor
+Milestone 3: Extend the Page with a Lesson Notes Editor
 - Add a Markdown editor for editing lesson notes.
   - Save edited notes to the backend database.
   - Address the issue of outdated lesson notes management.
