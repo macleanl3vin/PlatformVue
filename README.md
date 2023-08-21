@@ -1,6 +1,6 @@
 # PlatformVue
 # What is this? 
-- This is a Industry Authentic Full-stack website it involves building a web application to assist teachers in managing their daily lesson plans and lesson notes more effectively. It's divided into several milestones:
+- This is a Industry Authentic Full-stack web application to assist teachers in managing their daily lesson plans and lesson notes more effectively. It's divided into several milestones:
 
 1. Build a Responsive Web Page
 - Create a responsive web page using HTML, CSS, and JavaScript.
