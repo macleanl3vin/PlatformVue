@@ -3,6 +3,7 @@
 This is a Industry Authentic full-stack web app to assist teachers in managing their daily lesson plans and lesson notes more effectively. 
 It's divided into several milestones:
 
+
 Milestone 1: Build a Responsive Web Page.
 - Create a responsive web page using HTML, CSS, and JavaScript.
   - Use design information from Figma to structure and style the page.
