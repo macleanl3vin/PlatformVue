@@ -4,7 +4,6 @@
 This is an Industry Authentic full-stack web app I developed during the summer of 2023 in an internship with Techsmart a software development company. This project focused on assisting teachers in managing their daily lesson plans and lesson notes more effectively. 
 Over the course of the internship I completed the following milestones:
 
-
 Milestone 1: Build a Responsive Web Page.
 - Create a responsive web page using HTML, CSS, and JavaScript.
   - Use design information from Figma to structure and style the page.
@@ -31,7 +30,7 @@ Milestone 5: Integrate the Page with a Serverless Database
   - Reduce inefficiencies by adopting a serverless database.
   - Provide real-time updates and improved data storage.
 --------------------------------------------------
-### Throughout the project, various technologies such as HTML/CSS, JavaScript, Vue 3, VueFire, and Google Cloud Firestore are used. The tools I used In this project inlcude replit as my IDE, Figma for UI documentation. This project aims to create a user-friendly platform for teachers, while my showcasing software development skills, including responsive design, data-driven approaches, component-based architecture, and integration with a serverless database.
+### Throughout the project, various technologies such as HTML/CSS, JavaScript, Vue 3, VueFire, and Google Cloud Firestore are used. The tools I used In this project inlcude replit as my IDE and Figma for UI documentation. This project aims to create a user-friendly platform for teachers, while my showcasing software development skills, including responsive design, data-driven approaches, component-based architecture, and integration with a serverless database.
 --------------------------------------------------
 # How does it work?
 --------------------------------------------------
