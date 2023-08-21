@@ -2,32 +2,32 @@
 # What is this? 
 This is a Industry Authentic full-stack web app to assist teachers in managing their daily lesson plans and lesson notes more effectively. It's divided into several milestones:
 
-1. Build a Responsive Web Page
+1.&nbsp;Build a Responsive Web Page.
 - Create a responsive web page using HTML, CSS, and JavaScript.
   - Use design information from Figma to structure and style the page.
   - Populate the lesson plan content with JavaScript objects.
-  --------------------------------------------------
-2. Extend the Page with a Dynamic Lesson Plan
+--------------------------------------------------
+2.&nbsp;Extend the Page with a Dynamic Lesson Plan
 - Allow teachers to rearrange activities in their lesson plans using responsive down/up buttons.
   - Implement backend integration using REST APIs to save changes.
   - Solve the challenge of inflexible lesson plan reordering.
 --------------------------------------------------
-3. Extend the Page with a Lesson Notes Editor
+3.&nbsp;Extend the Page with a Lesson Notes Editor
 - Add a Markdown editor for editing lesson notes.
   - Save edited notes to the backend database.
   - Address the issue of outdated lesson notes management.
 --------------------------------------------------
-Milestone 4: Decompose the Page into Components
+Milestone 4:&nbsp;Decompose the Page into Components
 - Refactor the web page into modular Vue components.
   - Utilize Vue 3 and Vite for more efficient development.
   - Prepare for future feature additions and maintenance.
 --------------------------------------------------
-Milestone 5: Integrate the Page with a Serverless Database
+Milestone 5:&nbsp;Integrate the Page with a Serverless Database
 - Integrate the web page with Google Cloud Firestore.
   - Use VueFire for data synchronization.
   - Reduce inefficiencies by adopting a serverless database.
   - Provide real-time updates and improved data storage.
-------------------------------------------------------------
+--------------------------------------------------
 Throughout the project, various technologies such as Replit, Figma, Vue, VueFire, and Google Cloud Firestore are employed. The project aims to create a user-friendly platform for teachers while showcasing software development skills and principles, including responsive design, data-driven approaches, component-based architecture, and integration with serverless databases.
 ------------------------------------------------------------
 # How does it work?
