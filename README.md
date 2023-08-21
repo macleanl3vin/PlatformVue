@@ -1,7 +1,7 @@
-# PlatformVue
+# Techsmart Platform
 ------------------------------------------------------------
 ## What is this? 
-This is a Industry Authentic full-stack web app to assist teachers in managing their daily lesson plans and lesson notes more effectively. 
+This is a Industry Authentic full-stack web app I developed during the summer of 2023 in an internship with Techsmart a software development company, the project is to assist teachers in managing their daily lesson plans and lesson notes more effectively. 
 It's divided into several milestones:
 
 
