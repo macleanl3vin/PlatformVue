@@ -22,7 +22,7 @@ Milestone 4: Decompose the Page into Components
   - Utilize Vue 3 and Vite for more efficient development.
   - Prepare for future feature additions and maintenance.
 --------------------------------------------------
-Milestone 5: Integrate the Page with a Serverless Database<nobr>
+Milestone 5: Integrate the Page with a Serverless Database
 - Integrate the web page with Google Cloud Firestore.
   - Use VueFire for data synchronization.
   - Reduce inefficiencies by adopting a serverless database.
