@@ -28,7 +28,7 @@ Milestone 5: Integrate the Page with a Serverless Database
   - Reduce inefficiencies by adopting a serverless database.
   - Provide real-time updates and improved data storage.
 --------------------------------------------------
-Throughout the project, various technologies such as Replit, Figma, Vue, VueFire, and Google Cloud Firestore are employed. The project aims to create a user-friendly platform for teachers while showcasing software development skills and principles, including responsive design, data-driven approaches, component-based architecture, and integration with serverless databases.
+Throughout the project, various technologies such as Replit, Figma, Vue 3, VueFire, and Google Cloud Firestore are used. This project aims to create a user-friendly platform for teachers, while showcasing software development skills and principles, including responsive design, data-driven approaches, component-based architecture, and integration with a serverless database.
 ------------------------------------------------------------
 # How does it work?
 ------------------------------------------------------------
