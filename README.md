@@ -34,6 +34,7 @@ Milestone 5: Integrate the Page with a Serverless Database
 ------------------------------------------------------------
 # How does it work?
 ------------------------------------------------------------
+Lesson Plan card: 
 ## Rearranging activity-cards using up/down buttons, success-case: 
 
 ![undefined-high](https://github.com/macleanl3vin/PlatformVue/assets/91438214/87122792-c6ca-4f98-9f3a-d58b3ea9ff1b)
