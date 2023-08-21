@@ -13,7 +13,7 @@
   
 - The project involves building a web application to assist teachers in managing their daily lesson plans and lesson notes more effectively. It's divided into several milestones:
 
-1. 
+1. Build a Responsive Web Page
 - Create a responsive web page using HTML, CSS, and JavaScript.
   - Use design information from Figma to structure and style the page.
   - Populate lesson plan content with JavaScript objects.
@@ -21,28 +21,28 @@
   - Address the problem of cumbersome lesson plan management tools.
   - Extend the Page with a Dynamic Lesson Plan:
   
-2. 
+2. Extend the Page with a Dynamic Lesson Plan
 - Allow teachers to rearrange activities in their lesson plans.
   - Implement backend integration using REST APIs to save changes.
   - Provide a user-friendly way to tailor lesson plans.
   - Solve the challenge of inflexible lesson plan reordering.
   - Extend the Page with a Lesson Notes Editor:
 
-3. 
+3. Extend the Page with a Lesson Notes Editor
 - Add a Markdown editor for editing lesson notes.
   - Save edited notes to the backend service.
   - Enhance flexibility in adapting lesson notes to changing needs.
   - Address the issue of outdated lesson notes management.
   - Decompose the Page into Components:
 
-4. 
+Milestone 4: Decompose the Page into Components
 - Refactor the web page into modular Vue components.
   - Utilize Vue and Vite for more efficient development.
   - Improve code organization and modularity.
   - Prepare for future feature additions and maintenance.
   - Integrate the Page with a Serverless Database:
 
-5. 
+Milestone 5: Integrate the Page with a Serverless Database
 - Integrate the web page with Google Cloud Firestore.
   - Use VueFire for data synchronization.
   - Reduce costs and inefficiencies by adopting a serverless database.
