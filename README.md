@@ -33,7 +33,6 @@ Milestone 5: Integrate the Page with a Serverless Database
 ### Throughout the project, various technologies such as Replit, Figma, Vue 3, VueFire, and Google Cloud Firestore are used. This project aims to create a user-friendly platform for teachers, while showcasing software development skills and principles, including responsive design, data-driven approaches, component-based architecture, and integration with a serverless database.
 --------------------------------------------------
 # How does it work?
---------------------------------------------------
 ## Lesson Plan card: 
 ### Rearranging activity-cards using up/down buttons, success-case: 
 
@@ -43,3 +42,4 @@ Milestone 5: Integrate the Page with a Serverless Database
 
 ![undefined-high (1)](https://github.com/macleanl3vin/PlatformVue/assets/91438214/70782fe8-7265-4b6f-9f7d-a0008bc32d50)
 ------------------------------------------------------------
+## Lesson Notes card:
