@@ -36,16 +36,25 @@
     }, 
     isLast: {
       type: Boolean
+    }, 
+    index: {
+      type: Object
     }
   });
 
+  const index = ref(props.index);
+  
+  const move = () => {
+    emit('moveup');
+  };
+  
   const moveUp = () => {
     emit('moveup');
   };
   
   const moveDown = () => {
     emit('movedown');
-  };
+  };  
   
   function activityCardStyles(activity) {
     const style = {height: `${(activity.durationMinutes/5) * 38}px`};

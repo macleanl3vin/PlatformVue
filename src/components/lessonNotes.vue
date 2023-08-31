@@ -1,28 +1,67 @@
+<template>
+  <div class="section-card" style="position: relative;">
+    <div class="notes-header">
+      <h1>Lesson Notes</h1>
+      <div :class="buttonContainerClasses()">
+        <div @click="editButtonClicked()" class="edit-button">
+          <img src="./icons/arrow_up.svg" class="edit"/>
+          <img src="./icons/arrow_up1.svg" class="edit-hover"/>
+        </div>
+        
+        <div @click="saveButtonClicked()" class="save-button">
+          <h1 class="save-text">SAVE</h1>
+        </div>
+
+        <div @click="cancelButtonClicked()" class="cancel-button">
+          <h1 class="cancel-text">CANCEL</h1>
+        </div>
+      </div>
+      
+      <div class="message-container">  
+        <h1 v-show="savingMessage == 'saving'" class="save-message">Saving...</h1>
+        <h1 v-show="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
+        <h1 v-show="savingMessage == 'error'" class="error-message"><img src="./icons/warning_amber.svg">Save Error</h1>
+      </div>
+    </div>
+
+    <div class="notes-content" style="overflow-y: scroll;">
+      <div v-if="currentMarkdownString === null"></div>
+      <textarea v-else-if="inEditMode" id="input" rows="50" v-model="currentMarkdownString">{{currentMarkdownString}}</textarea>
+      <div v-else-if="!inEditMode" v-html="markdownAsHtml()"></div>
+      <div v-if="!inEditMode" class="notes-fadeout"></div>
+    </div> 
+  </div>
+</template>  
+
 <script setup>
   import {marked} from 'marked';
   import {ref, onMounted} from 'vue';
   import {db} from '/src/firebase.js'
   import { getFirestore, collection, getDocs, doc, updateDoc } from "firebase/firestore";
-  
+
+  // Refs are used to create a reactive value
   let savingMessage = ref('');
   let currentMarkdownString = ref(null);
   let inEditMode = ref(false);
   let originalMarkdownString = '';
   let disabledState = ref(false);
   let markdown;
-  
+
+  // Creating a reference to the lessonNote collection
   const lessonNote = collection(db, 'lessonNote');
   const lessonNoteDocuments = getDocs(lessonNote);
-  
   
   function drawLessonNotes() {
     // Disable deprecation warnings introduced in marked v5
     // https://github.com/markedjs/marked/releases/tag/v5.0.0
     marked.use({mangle: false, headerIds: false});
-    
+
+    // Extracting and setting Markdown content from lesson note documents
     lessonNoteDocuments
       .then(lessonNoteDocuments => {
+        // Loop through each lesson note document
         lessonNoteDocuments.forEach((doc) => {
+          // Extract data from the current document 
           markdown = doc.data();
         }); 
         originalMarkdownString = markdown.contentMarkdown;
@@ -36,10 +75,10 @@
     const classes = ['button-container'];
     
     if (inEditMode.value) {
-      classes.push('button-container--edit', 'button-container--save', 'button-container--cancel');
+      classes.push('button-container-hide--edit', 'button-container-show--save', 'button-container-show--cancel');
     }
     if (disabledState.value) {
-      classes.push('button-container--disabled');
+      classes.push('button-all--disabled');
     }
     return classes;
   }
@@ -48,7 +87,7 @@
     inEditMode.value = true;
     
     savingMessage.value = '';
-  };    
+  };
 
   function saveButtonClicked() {
       savingMessage.value = 'saving';
@@ -106,40 +145,6 @@
   }  
 </script>
 
-<template>
-  <div class="section-card" style="position: relative;">
-    <div class="notes-header">
-      <h1>Lesson Notes</h1>
-      <div :class="buttonContainerClasses()">
-        <div @click="editButtonClicked()" class="edit-button">
-          <img src="./icons/arrow_up.svg" class="edit"/>
-          <img src="./icons/arrow_up1.svg" class="edit-hover"/>
-        </div>
-        
-        <div @click="saveButtonClicked()" class="save-button">
-          <h1 class="save-text">SAVE</h1>
-        </div>
-
-        <div @click="cancelButtonClicked()" class="cancel-button">
-          <h1 class="cancel-text">CANCEL</h1>
-        </div>
-      </div>
-      <div class="message-container">  
-        <h1 v-show="savingMessage == 'saving'" class="save-message">Saving...</h1>
-        <h1 v-show="savingMessage == 'saved'" class="saved-message"><img src="./icons/done.svg">Saved</h1>
-        <h1 v-show="savingMessage == 'error'" class="error-message"><img src="./icons/warning_amber.svg">Save Error</h1>
-      </div>
-    </div>
-
-    <div class="notes-content" style="overflow-y: scroll;">
-      <div v-if="currentMarkdownString === null"></div>
-      <textarea v-else-if="inEditMode" id="input" rows="50" v-model="currentMarkdownString">{{currentMarkdownString}}</textarea>
-      <div v-else-if="!inEditMode" v-html="markdownAsHtml()"></div>
-      <div v-if="!inEditMode" class="notes-fadeout"></div>
-    </div> 
-  </div>
-</template>  
-
 <style>
   /* Content inside lesson-notes */
   .notes-content h1 {
@@ -183,7 +188,8 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    margin-top: 5px;
   }
   
   .notes-content ul {
@@ -312,7 +318,7 @@
     background: rgba(117, 117, 117, 0.40);
   }
   
-  .button-container--edit .edit-button {
+  .button-container-hide--edit .edit-button {
     visibility: hidden;
   }
   /* End of edit button */
@@ -359,17 +365,17 @@
     line-height: 14px;
   }
   
-  .button-container--save .save-button, 
-  .button-container--cancel .cancel-button {
+  .button-container-show--save .save-button, 
+  .button-container-show--cancel .cancel-button {
     visibility: visible;
   }
   
-  .button-container:not(.button-container--disabled) .cancel-button:hover, .button-container:not(.button-container--disabled)  .save-button:hover {
+  .button-container:not(.button-all--disabled) .cancel-button:hover, .button-container:not(.button-all--disabled)  .save-button:hover {
     border: 1px solid #2F2B2C;
     background: rgba(117, 117, 117, 0.40);
   }
   
-  .button-container:not(.button-container--disabled) .cancel-button:hover .cancel-text, .button-container:not(.button-container--disabled) .save-button:hover .save-text {
+  .button-container:not(.button-all--disabled) .cancel-button:hover .cancel-text, .button-container:not(.button-all--disabled) .save-button:hover .save-text {
     color: #2f2b2c;
   }
   
@@ -393,12 +399,12 @@
     visibility: visible;
   }
   
-  .button-container--disabled .cancel-button,
-  .button-container--disabled .save-button {
+  .button-all--disabled .cancel-button,
+  .button-all--disabled .save-button {
     background-color: transparent !important;
     pointer-events: none;
   }
-  .button-container--disabled .save-text {
+  .button-all--disabled .save-text {
     color:#757575;
   }
   

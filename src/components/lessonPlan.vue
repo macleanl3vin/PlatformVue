@@ -75,6 +75,7 @@
     
   function activityCardClasses() {
     const classes = ['activity-cards'];
+    
     if (disabledState.value) {
       classes.push('activity-cards--disabled');
     }
@@ -174,6 +175,11 @@
 </template>  
 
 <style>
+  .activity-cards ul {
+    padding: 0px;
+    margin: 0px;
+  }
+  
   /* Styles for messages related to move button cases */
   .save-message,
   .saved-message,
@@ -386,16 +392,16 @@
     padding-left: 2px;
   }
   
-  h1.duration {
+  /* h1.duration {
     display: flex;
-    color: #2f2b2c;
+    color: #2f2b2c; */
     /* activity detail */
-    font-size: 12px;
+    /* font-size: 12px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-style: normal;
     font-weight: 300;
     margin-left: 16px;
     height: 20px;
-  }
+  } */
 </style>
