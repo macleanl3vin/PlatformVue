@@ -53,3 +53,8 @@ Milestone 5: Integrate the Page with a Serverless Database
 ------------------------------------------------------------
 ### Editing the Lesson Notes card, error-case:
 ![undefined-high (4)](https://github.com/macleanl3vin/PlatformVue/assets/91438214/b79aa524-ce59-4281-ab55-0ca5b41bdda6)
+
+## Future plans for Platform Page:
+- Deploying page using Netlify.
+- Finish implementing VueDraggable.
+
