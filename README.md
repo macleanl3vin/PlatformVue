@@ -42,7 +42,10 @@ Milestone 5: Integrate the Page with a Serverless Database
 ### Rearranging activity-cards using up/down buttons, error-case:
 
 ![undefined-high (1)](https://github.com/macleanl3vin/PlatformVue/assets/91438214/70782fe8-7265-4b6f-9f7d-a0008bc32d50)
+--------------------------------------------------
+### Rearranging the activity-cards using VueDraggable, Current-stage: 
 
+![undefined-high (5)](https://github.com/macleanl3vin/Techsmart-Platform/assets/91438214/866777d5-06e0-4f8e-a15c-f4d695b9faca)
 ------------------------------------------------------------
 ## Lesson Notes card:
 ### Editing the Lesson Notes card, save-case: 
